@@ -13,11 +13,11 @@ import androidx.navigation.compose.currentBackStackEntryAsState
 
 @Composable
 fun BottomNavigationBar(navController: NavController) {
-    val items = listOf(BottomBarItem.Characters, BottomBarItem.Episodes)
+    val items = listOf(BottomBarItem.Characters, BottomBarItem.Episodes, BottomBarItem.Locations)
 
     BottomNavigation(
-        backgroundColor = Color.White,
-        contentColor = Color.Black
+        backgroundColor = Color.Blue,
+        contentColor = Color.Yellow
     ) {
         val currentRoute = navController.currentBackStackEntryAsState().value?.destination?.route
         items.forEach { item ->

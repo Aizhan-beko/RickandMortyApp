@@ -89,8 +89,6 @@ dependencies {
     implementation(libs.squeareup.logginginterceptor)
 
     implementation(libs.squeareup.retrofit)
-
-
 }
 
 

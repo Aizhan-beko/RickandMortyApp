@@ -22,13 +22,5 @@ data class Character(
     val gender: String,
     @SerializedName("image")
     val image: String,
-    @SerializedName("location")
-    val location: Location,
 )
 
-data class Location(
-    @SerializedName("name")
-    val name: String,
-    @SerializedName("url")
-    val url: String
-)

@@ -3,14 +3,14 @@ package com.geeks.rickandmortyapp.screen.character
 import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.geeks.rickandmortyapp.repository.RickAndMortyRepository
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
 import com.geeks.rickandmortyapp.data.characters.Character
+import com.geeks.rickandmortyapp.repository.characters.CharactersRepository
 
 
-class CharactersViewModel(private val repository: RickAndMortyRepository) : ViewModel() {
+class CharactersViewModel(private val repository: CharactersRepository) : ViewModel() {
 
     private val _characters = MutableStateFlow<List<Character>>(emptyList())
     val characters: StateFlow<List<Character>> = _characters

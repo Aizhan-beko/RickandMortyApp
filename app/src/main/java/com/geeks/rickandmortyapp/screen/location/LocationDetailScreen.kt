@@ -1,7 +1,9 @@
-package com.geeks.rickandmortyapp.screen.character
+package com.geeks.rickandmortyapp.screen.location
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.items
 import androidx.compose.material.CircularProgressIndicator
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
@@ -16,15 +18,16 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import org.koin.androidx.compose.koinViewModel
 
+
 @Composable
-fun CharacterDetailScreen(
-    characterId: Int,
-    viewModel: CharactersViewModel = koinViewModel()
+fun LocationDetailScreen(
+    locationId: Int,
+    viewModel: LocationsViewModel = koinViewModel()
 ) {
-    val character by viewModel.selectedCharacter.collectAsState()
+    val location by viewModel.selectedLocation.collectAsState()
 
     LaunchedEffect(Unit) {
-        viewModel.getCharacterById(characterId)
+        viewModel.getLocationById(locationId)
     }
 
     Box(
@@ -33,15 +36,12 @@ fun CharacterDetailScreen(
             .background(Color.Gray)
             .padding(16.dp)
     ) {
-        if (character == null) {
-
+        if (location == null) {
             CircularProgressIndicator(modifier = Modifier.align(Alignment.Center))
         } else {
-            character?.let {
+            location?.let {
                 Column(
-                    modifier = Modifier
-                        .fillMaxSize()
-                        .padding(16.dp),
+                    modifier = Modifier.fillMaxSize(),
                     verticalArrangement = Arrangement.spacedBy(12.dp)
                 ) {
                     Text(
@@ -50,28 +50,36 @@ fun CharacterDetailScreen(
                         color = Color.Yellow,
                         fontWeight = FontWeight.Bold
                     )
-
                     Text(
-                        text = "Status: ${it.status}",
+                        text = "Type: ${it.type}",
                         fontSize = 25.sp,
                         color = Color.Blue,
                         fontWeight = FontWeight.Bold
                     )
-
                     Text(
-                        text = "Species: ${it.species}",
+                        text = "Dimension: ${it.dimension}",
                         fontSize = 25.sp,
                         color = Color.Blue,
                         fontWeight = FontWeight.Bold
                     )
-
                     Text(
-                        text = "Gender: ${it.gender}",
+                        text = "Residents: ${it.residents.size} characters",
                         fontSize = 25.sp,
                         color = Color.Blue,
                         fontWeight = FontWeight.Bold
+
                     )
 
+                    LazyColumn(modifier = Modifier.fillMaxWidth()) {
+                        items(it.residents) { residentUrl ->
+                            Text(
+                                text = residentUrl,
+                                fontSize = 15.sp,
+                                color = Color.Blue,
+                                fontWeight = FontWeight.Bold
+                            )
+                        }
+                    }
                 }
             }
         }

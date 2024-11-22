@@ -37,7 +37,7 @@ fun MainScreen() {
                     }
                 },
                 colors = TopAppBarDefaults.mediumTopAppBarColors(
-                    containerColor = Color.Gray
+                    containerColor = Color.Blue
                 )
             )
         },
