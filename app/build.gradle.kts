@@ -1,11 +1,12 @@
 plugins {
     alias(libs.plugins.android.application)
-    alias(libs.plugins.jetbrains.kotlin.android)
+    alias(libs.plugins.kotlin.android)
+    alias(libs.plugins.kotlin.compose)
+    kotlin("plugin.serialization") version "2.0.21"
 }
-
 android {
     namespace = "com.geeks.rickandmortyapp"
-    compileSdk = 34
+    compileSdk = 35
 
     defaultConfig {
         applicationId = "com.geeks.rickandmortyapp"
@@ -66,4 +67,30 @@ dependencies {
     androidTestImplementation(libs.androidx.ui.test.junit4)
     debugImplementation(libs.androidx.ui.tooling)
     debugImplementation(libs.androidx.ui.test.manifest)
+
+     //Сoil
+    implementation("io.coil-kt.coil3:coil-compose:3.0.3")
+
+    //Material https://developer.android.com/jetpack/androidx/releases/compose-material
+    implementation(libs.androidx.material)
+
+    //Serialization https://kotlinlang.org/docs/serialization.html#formats
+    implementation(libs.kotlinx.serialization.json)
+
+    //Compose Nav https://developer.android.com/develop/ui/compose/navigation
+    implementation(libs.androidx.navigation.compose)
+
+    // Koin
+    implementation(libs.koin.android)
+    implementation(libs.koin.compose)
+
+    implementation(libs.converter.gson)
+    implementation(libs.squeareup.okhttp)
+    implementation(libs.squeareup.logginginterceptor)
+
+    implementation(libs.squeareup.retrofit)
+
+
 }
+
+
