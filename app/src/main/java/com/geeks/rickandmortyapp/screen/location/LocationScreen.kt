@@ -4,20 +4,17 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.LocationOn
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.collectAsState
-import androidx.compose.runtime.getValue
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
+import androidx.paging.LoadState
+import androidx.paging.compose.collectAsLazyPagingItems
 import org.koin.androidx.compose.koinViewModel
 import com.geeks.rickandmortyapp.data.locations.Location
 
@@ -26,34 +23,38 @@ fun LocationScreen(
     viewModel: LocationsViewModel = koinViewModel(),
     toLocationDetailScreen: (id: Int) -> Unit
 ) {
-    val locations by viewModel.locations.collectAsState()
+    val locations = viewModel.locationsFlow.collectAsLazyPagingItems()
 
-    LaunchedEffect(Unit) {
-        viewModel.getLocations()
-    }
+    LazyColumn {
+        items(locations.itemCount) { index ->
+            val location = locations[index]
+            location?.let {
+                LocationItem(location = it) {
+                    toLocationDetailScreen(it.id)
+                }
+            }
+        }
 
-    Box(
-        modifier = Modifier
-            .fillMaxSize()
-            .background(Color.Gray)
-            .padding(8.dp)
-    ) {
-        if (locations.isEmpty()) {
-            CircularProgressIndicator(modifier = Modifier.align(Alignment.Center))
-        } else {
-            LazyColumn(
-                verticalArrangement = Arrangement.spacedBy(8.dp)
-            ) {
-                items(locations) { location ->
-                    LocationItem(location = location) {
-                        toLocationDetailScreen(location.id)
-                    }
+        locations.apply {
+            when {
+                loadState.refresh is LoadState.Loading -> {
+                    item { CircularProgressIndicator(modifier = Modifier.fillMaxWidth()) }
+                }
+                loadState.append is LoadState.Loading -> {
+                    item { CircularProgressIndicator(modifier = Modifier.fillMaxWidth()) }
+                }
+                loadState.refresh is LoadState.Error -> {
+                    val e = loadState.refresh as LoadState.Error
+                    item { Text(text = "Error: ${e.error.message}") }
+                }
+                loadState.append is LoadState.Error -> {
+                    val e = loadState.append as LoadState.Error
+                    item { Text(text = "Error: ${e.error.message}") }
                 }
             }
         }
     }
 }
-
 @Composable
 fun LocationItem(location: Location, onClick: () -> Unit) {
     Row(

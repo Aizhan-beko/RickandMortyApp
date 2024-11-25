@@ -13,6 +13,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.unit.sp
 import androidx.navigation.compose.rememberNavController
 import com.geeks.rickandmortyapp.navigation.BottomNavigationBar
 import com.geeks.rickandmortyapp.navigation.NavHostSetup
@@ -32,12 +33,14 @@ fun MainScreen() {
                     ) {
                         Text(
                             text = "Rick and Morty App",
+                            fontSize = 25.sp,
+                            color = Color.White,
                             fontWeight = FontWeight.Bold
                         )
                     }
                 },
                 colors = TopAppBarDefaults.mediumTopAppBarColors(
-                    containerColor = Color.Blue
+                    containerColor = Color.Black
                 )
             )
         },

@@ -49,20 +49,20 @@ fun EpisodeDetailScreen(
                     Text(
                         text = "Name: ${it.name}",
                             fontSize = 25.sp,
-                            color = Color.Yellow,
+                            color = Color.White,
                             fontWeight = FontWeight.Bold
                     )
                     Text(
                         text = "Air Date: ${it.airDate}",
                             fontSize = 25.sp,
-                            color = Color.Blue,
+                            color = Color.DarkGray,
                             fontWeight = FontWeight.Bold
                         )
 
                     Text(
                         text = "Episode: ${it.episodeCode}",
                             fontSize = 25.sp,
-                            color = Color.Blue,
+                            color = Color.DarkGray,
                             fontWeight = FontWeight.Bold
                         )
 
@@ -70,7 +70,7 @@ fun EpisodeDetailScreen(
                         Text(
                             text = "Character: $characterUrl",
                                 fontSize = 25.sp,
-                                color = Color.Blue,
+                                color = Color.DarkGray,
                                 fontWeight = FontWeight.Bold
                             )
                     }

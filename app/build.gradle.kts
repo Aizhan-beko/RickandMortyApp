@@ -69,7 +69,8 @@ dependencies {
     debugImplementation(libs.androidx.ui.test.manifest)
 
      //Сoil
-    implementation("io.coil-kt.coil3:coil-compose:3.0.3")
+    implementation(libs.coil.compose)
+
 
     //Material https://developer.android.com/jetpack/androidx/releases/compose-material
     implementation(libs.androidx.material)
@@ -89,6 +90,10 @@ dependencies {
     implementation(libs.squeareup.logginginterceptor)
 
     implementation(libs.squeareup.retrofit)
+
+    //pagination
+    implementation(libs.androidx.paging.compose)
+    implementation(libs.androidx.paging.runtime)
 }
 
 

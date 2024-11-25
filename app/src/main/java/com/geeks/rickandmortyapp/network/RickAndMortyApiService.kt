@@ -8,25 +8,26 @@ import com.geeks.rickandmortyapp.data.locations.Location
 import com.geeks.rickandmortyapp.data.locations.LocationsResponse
 import retrofit2.http.GET
 import retrofit2.http.Path
-
+import retrofit2.http.Query
 
 interface RickAndMortyApi {
 
     @GET("character")
-    suspend fun getCharacters(): CharactersResponse
+    suspend fun getCharacters(@Query("page") page: Int): CharactersResponse
 
     @GET("character/{id}")
     suspend fun getCharacterById(@Path("id") id: Int): Character
 
     @GET("episode")
-    suspend fun getEpisodes(): EpisodesResponse
+    suspend fun getEpisodes(@Query("page") page: Int): EpisodesResponse
 
-    @GET("episode/{id}")
-    suspend fun getEpisode(@Path("id") id: Int): Episode
+    @GET("episode/{id}") suspend fun getEpisodeById(@Path("id") id: Int): Episode
 
     @GET("location")
-    suspend fun getLocations(): LocationsResponse
+    suspend fun getLocations(@Query("page") page: Int): LocationsResponse
 
-    @GET("location/{id}")
-    suspend fun getLocation(@Path("id") id: Int): Location
+    @GET("location/{id}") suspend fun getLocationById(@Path("id") id: Int): Location
 }
+
+
+

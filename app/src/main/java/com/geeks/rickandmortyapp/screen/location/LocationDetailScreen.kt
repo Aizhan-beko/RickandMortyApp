@@ -26,7 +26,7 @@ fun LocationDetailScreen(
 ) {
     val location by viewModel.selectedLocation.collectAsState()
 
-    LaunchedEffect(Unit) {
+    LaunchedEffect(locationId) {
         viewModel.getLocationById(locationId)
     }
 
@@ -36,46 +36,53 @@ fun LocationDetailScreen(
             .background(Color.Gray)
             .padding(16.dp)
     ) {
-        if (location == null) {
-            CircularProgressIndicator(modifier = Modifier.align(Alignment.Center))
-        } else {
-            location?.let {
-                Column(
-                    modifier = Modifier.fillMaxSize(),
-                    verticalArrangement = Arrangement.spacedBy(12.dp)
-                ) {
-                    Text(
-                        text = "Name: ${it.name}",
-                        fontSize = 25.sp,
-                        color = Color.Yellow,
-                        fontWeight = FontWeight.Bold
-                    )
-                    Text(
-                        text = "Type: ${it.type}",
-                        fontSize = 25.sp,
-                        color = Color.Blue,
-                        fontWeight = FontWeight.Bold
-                    )
-                    Text(
-                        text = "Dimension: ${it.dimension}",
-                        fontSize = 25.sp,
-                        color = Color.Blue,
-                        fontWeight = FontWeight.Bold
-                    )
-                    Text(
-                        text = "Residents: ${it.residents.size} characters",
-                        fontSize = 25.sp,
-                        color = Color.Blue,
-                        fontWeight = FontWeight.Bold
-
-                    )
-
-                    LazyColumn(modifier = Modifier.fillMaxWidth()) {
-                        items(it.residents) { residentUrl ->
+        when {
+            location == null -> {
+                CircularProgressIndicator(modifier = Modifier.align(Alignment.Center))
+            }
+            else -> {
+                location?.let { loc ->
+                    LazyColumn(
+                        modifier = Modifier.fillMaxSize(),
+                        verticalArrangement = Arrangement.spacedBy(12.dp)
+                    ) {
+                        item {
+                            Text(
+                                text = "Name: ${loc.name}",
+                                fontSize = 25.sp,
+                                color = Color.White,
+                                fontWeight = FontWeight.Bold
+                            )
+                        }
+                        item {
+                            Text(
+                                text = "Type: ${loc.type}",
+                                fontSize = 25.sp,
+                                color = Color.DarkGray,
+                                fontWeight = FontWeight.Bold
+                            )
+                        }
+                        item {
+                            Text(
+                                text = "Dimension: ${loc.dimension}",
+                                fontSize = 25.sp,
+                                color = Color.DarkGray,
+                                fontWeight = FontWeight.Bold
+                            )
+                        }
+                        item {
+                            Text(
+                                text = "Residents (${loc.residents.size}):",
+                                fontSize = 25.sp,
+                                color = Color.DarkGray,
+                                fontWeight = FontWeight.Bold
+                            )
+                        }
+                        items(loc.residents) { residentUrl ->
                             Text(
                                 text = residentUrl,
                                 fontSize = 15.sp,
-                                color = Color.Blue,
+                                color = Color.DarkGray,
                                 fontWeight = FontWeight.Bold
                             )
                         }

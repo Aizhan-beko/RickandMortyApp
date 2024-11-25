@@ -21,9 +21,8 @@ fun NavHostSetup(navController: NavController) {
         startDestination = BottomBarItem.Characters.route
     ) {
         composable(BottomBarItem.Characters.route) {
-            CharacterScreen {
-                navController.navigate("character_detail_screen/$it")
-            }
+            CharacterScreen(navController = navController)
+
         }
         composable(BottomBarItem.Episodes.route) {
             EpisodeScreen(navController = navController)

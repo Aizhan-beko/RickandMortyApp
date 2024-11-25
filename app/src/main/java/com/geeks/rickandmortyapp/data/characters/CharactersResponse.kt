@@ -4,7 +4,7 @@ import com.google.gson.annotations.SerializedName
 
 data class CharactersResponse(
     @SerializedName("results")
-    val results: List<Character>?
+    val results: List<Character>?,
 )
 
 data class Character(
@@ -23,4 +23,7 @@ data class Character(
     @SerializedName("image")
     val image: String,
 )
+
+
+
 

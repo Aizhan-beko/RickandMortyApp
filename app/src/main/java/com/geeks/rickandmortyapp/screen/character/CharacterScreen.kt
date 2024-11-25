@@ -1,89 +1,114 @@
 package com.geeks.rickandmortyapp.screen.character
 
 import androidx.compose.foundation.background
+import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
-import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Person
-import androidx.compose.material3.*
+import androidx.compose.material.CircularProgressIndicator
+import androidx.compose.material.Text
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.collectAsState
-import androidx.compose.runtime.getValue
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.text.font.FontStyle
+import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
-import org.koin.androidx.compose.koinViewModel
+import androidx.navigation.NavController
+import androidx.paging.LoadState
+import androidx.paging.compose.collectAsLazyPagingItems
+import coil3.compose.AsyncImage
 import com.geeks.rickandmortyapp.data.characters.Character
+import org.koin.androidx.compose.koinViewModel
+
 
 @Composable
 fun CharacterScreen(
     viewModel: CharactersViewModel = koinViewModel(),
-    toCharacterDetailScreen: (id: Int) -> Unit
+    navController: NavController
 ) {
-    val characters by viewModel.characters.collectAsState()
+    val characters = viewModel.charactersFlow.collectAsLazyPagingItems()
 
-    LaunchedEffect(Unit) {
-        viewModel.getCharacters()
-    }
+    LazyColumn {
+        items(characters.itemCount) { index ->
+            val character = characters[index]
+            character?.let {
+                CharacterItem(
+                    character = it,
+                    onClick = { clickedCharacter ->
+                        navController.navigate("character_detail_screen/${clickedCharacter.id}")
+                    }
+                )
+            }
+        }
 
-    Box(
-        modifier = Modifier
-            .fillMaxSize()
-            .background(Color.Gray)
-    ) {
-        LazyColumn(
-            modifier = Modifier.padding(8.dp)
-        ) {
-            items(characters) { character ->
-                CharacterItem(character = character) {
-                    toCharacterDetailScreen(character.id)
+        characters.apply {
+            when {
+                loadState.refresh is LoadState.Loading -> {
+                    item { CircularProgressIndicator(modifier = Modifier.fillMaxWidth()) }
+                }
+                loadState.append is LoadState.Loading -> {
+                    item { CircularProgressIndicator(modifier = Modifier.fillMaxWidth()) }
+                }
+                loadState.refresh is LoadState.Error -> {
+                    val e = loadState.refresh as LoadState.Error
+                    item { Text(text = "Error: ${e.error.message}") }
+                }
+                loadState.append is LoadState.Error -> {
+                    val e = loadState.append as LoadState.Error
+                    item { Text(text = "Error: ${e.error.message}") }
                 }
             }
         }
     }
 }
-
 @Composable
-fun CharacterItem(character: Character, onClick: () -> Unit) {
+fun CharacterItem(
+    character: Character,
+    onClick: (Character) -> Unit
+) {
     Row(
         modifier = Modifier
             .fillMaxWidth()
-            .background(
-                Color.DarkGray,
-                shape = RoundedCornerShape(8.dp)
-            )
-            .clickable(onClick = onClick)
-            .padding(16.dp)
+            .padding(8.dp)
+            .background(color = Color.DarkGray, RoundedCornerShape(8.dp))
+            .clickable { onClick(character) }
+            .padding(16.dp),
+        verticalAlignment = Alignment.CenterVertically
     ) {
-        Icon(
-            imageVector = Icons.Default.Person,
+        AsyncImage(
+            model = character.image,
             contentDescription = character.name,
-            tint = Color(0xFFFFA500),
-            modifier = Modifier.size(48.dp)
+            modifier = Modifier
+                .size(100.dp)
+                .clip(RoundedCornerShape(8.dp))
+                .border(2.dp, MaterialTheme.colorScheme.primary, RoundedCornerShape(8.dp)),
+            contentScale = ContentScale.Crop
         )
         Spacer(modifier = Modifier.width(16.dp))
         Column {
             Text(
                 text = character.name,
-                style = MaterialTheme.typography.titleLarge.copy(
-                    fontWeight = FontWeight.Bold,
-                    color = Color(0xFFFFA500)
-                )
+                style = MaterialTheme.typography.titleLarge.copy(fontWeight = FontWeight.Bold),
+                color = MaterialTheme.colorScheme.onSurface
             )
-            Spacer(modifier = Modifier.height(4.dp))
             Text(
-                text = character.status,
-                style = MaterialTheme.typography.bodyMedium.copy(
-                    fontStyle = FontStyle.Italic,
-                    color = Color(0xFFFFA500)
-                )
+                text = "${character.status} • ${character.species}",
+                style = MaterialTheme.typography.bodyMedium.copy(fontWeight = FontWeight.Bold),
+                color = Color.White
             )
         }
     }
 }
+
+
+
