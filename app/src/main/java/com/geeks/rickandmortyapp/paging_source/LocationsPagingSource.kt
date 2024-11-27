@@ -25,8 +25,8 @@ class LocationsPagingSource(
     }
     override fun getRefreshKey(state: PagingState<Int, Location>): Int? {
         return state.anchorPosition?.let { position ->
-            state.closestItemToPosition(position)?.id?.let { id -> id
+            state.closestPageToPosition(position)?.prevKey?.plus(1)
+                ?: state.closestPageToPosition(position)?.nextKey?.minus(1)
             }
         }
     }
-}

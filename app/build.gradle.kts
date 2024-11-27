@@ -94,6 +94,9 @@ dependencies {
     //pagination
     implementation(libs.androidx.paging.compose)
     implementation(libs.androidx.paging.runtime)
+
+    // анимации
+    implementation(libs.accompanist.navigation.animation)
 }
 
 

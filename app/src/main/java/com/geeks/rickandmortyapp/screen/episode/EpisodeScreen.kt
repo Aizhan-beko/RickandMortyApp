@@ -15,6 +15,8 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.CircularProgressIndicator
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.AccountCircle
+import androidx.compose.material.icons.filled.Favorite
+import androidx.compose.material.icons.filled.FavoriteBorder
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -49,10 +51,10 @@ fun EpisodeScreen(
         episodes.apply {
             when {
                 loadState.refresh is LoadState.Loading -> {
-                    item { CircularProgressIndicator(modifier = Modifier.fillMaxWidth()) }
+                    item { CircularProgressIndicator(modifier = Modifier.size(25.dp)) }
                 }
                 loadState.append is LoadState.Loading -> {
-                    item { CircularProgressIndicator(modifier = Modifier.fillMaxWidth()) }
+                    item { CircularProgressIndicator(modifier = Modifier.size(25.dp)) }
                 }
                 loadState.refresh is LoadState.Error -> {
                     val e = loadState.refresh as LoadState.Error
@@ -71,6 +73,7 @@ fun EpisodeItem(episode: Episode, onClick: () -> Unit) {
     Row(
         modifier = Modifier
             .fillMaxWidth()
+            .padding(8.dp)
             .background(
                 Color.DarkGray,
                 shape = RoundedCornerShape(8.dp)
@@ -79,7 +82,7 @@ fun EpisodeItem(episode: Episode, onClick: () -> Unit) {
             .padding(16.dp)
     ) {
         Icon(
-            imageVector = Icons.Default.AccountCircle,
+            imageVector = Icons.Default.FavoriteBorder,
             contentDescription = episode.name,
             tint = Color(0xFFFFA500),
             modifier = Modifier.size(48.dp)

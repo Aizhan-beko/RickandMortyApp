@@ -32,61 +32,87 @@ fun LocationScreen(
                 LocationItem(location = it) {
                     toLocationDetailScreen(it.id)
                 }
+                LocationItem(location = it) {
+                    toLocationDetailScreen(it.id)
+                }
             }
         }
 
         locations.apply {
             when {
                 loadState.refresh is LoadState.Loading -> {
-                    item { CircularProgressIndicator(modifier = Modifier.fillMaxWidth()) }
+                    item { CircularProgressIndicator(modifier = Modifier.size(25.dp)) }
                 }
+
                 loadState.append is LoadState.Loading -> {
-                    item { CircularProgressIndicator(modifier = Modifier.fillMaxWidth()) }
+                    item { CircularProgressIndicator(modifier = Modifier.size(25.dp)) }
                 }
+
                 loadState.refresh is LoadState.Error -> {
                     val e = loadState.refresh as LoadState.Error
                     item { Text(text = "Error: ${e.error.message}") }
                 }
-                loadState.append is LoadState.Error -> {
-                    val e = loadState.append as LoadState.Error
-                    item { Text(text = "Error: ${e.error.message}") }
+            }
+
+            locations.apply {
+                when {
+                    loadState.refresh is LoadState.Loading -> {
+                        item { CircularProgressIndicator(modifier = Modifier.size(25.dp)) }
+                    }
+
+                    loadState.append is LoadState.Loading -> {
+                        item { CircularProgressIndicator(modifier = Modifier.size(25.dp)) }
+                    }
+
+                    loadState.refresh is LoadState.Error -> {
+                        val e = loadState.refresh as LoadState.Error
+                        item { Text(text = "Error: ${e.error.message}") }
+                    }
+
+                    loadState.append is LoadState.Error -> {
+                        val e = loadState.append as LoadState.Error
+                        item { Text(text = "Error: ${e.error.message}") }
+                    }
                 }
             }
         }
     }
 }
-@Composable
-fun LocationItem(location: Location, onClick: () -> Unit) {
-    Row(
-        modifier = Modifier
-            .fillMaxWidth()
-            .background(
-                Color.DarkGray,
-                shape = RoundedCornerShape(8.dp)
-            )
-            .clickable(onClick = onClick)
-            .padding(16.dp)
-    ) {
-        Icon(
-            imageVector = Icons.Default.LocationOn,
-            contentDescription = "Location: ${location.name}",
-            tint = Color(0xFFFFA500),
-            modifier = Modifier.size(48.dp)
-        )
-        Spacer(modifier = Modifier.width(16.dp))
-        Column {
-            Text(
-                text = location.name,
-                style = MaterialTheme.typography.titleMedium.copy(
-                    color = Color(0xFFFFA500),
-                    fontWeight = FontWeight.Bold
-                )
-            )
-            Spacer(modifier = Modifier.height(4.dp))
-            Text(
-                text = location.type,
-                style = MaterialTheme.typography.bodyMedium.copy(color = Color(0xFFFFA500))
-            )
-        }
-    }
-}
+
+
+            @Composable
+            fun LocationItem(location: Location, onClick: () -> Unit) {
+                Row(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(8.dp)
+                        .background(
+                            Color.DarkGray,
+                            shape = RoundedCornerShape(8.dp)
+                        )
+                        .clickable(onClick = onClick)
+                        .padding(16.dp)
+                ) {
+                    Icon(
+                        imageVector = Icons.Default.LocationOn,
+                        contentDescription = "Location: ${location.name}",
+                        tint = Color.Cyan,
+                        modifier = Modifier.size(48.dp)
+                    )
+                    Spacer(modifier = Modifier.width(16.dp))
+                    Column {
+                        Text(
+                            text = location.name,
+                            style = MaterialTheme.typography.titleMedium.copy(
+                                color = Color.Cyan,
+                                fontWeight = FontWeight.Bold
+                            )
+                        )
+                        Spacer(modifier = Modifier.height(4.dp))
+                        Text(
+                            text = location.type,
+                            style = MaterialTheme.typography.bodyMedium.copy(color = Color.Cyan)
+                        )
+                    }
+                }
+            }

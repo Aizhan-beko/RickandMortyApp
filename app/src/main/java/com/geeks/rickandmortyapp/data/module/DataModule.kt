@@ -10,6 +10,7 @@ import com.geeks.rickandmortyapp.repository.locations.LocationsRepository
 import com.geeks.rickandmortyapp.screen.character.CharactersViewModel
 import com.geeks.rickandmortyapp.screen.episode.EpisodesViewModel
 import com.geeks.rickandmortyapp.screen.location.LocationsViewModel
+import okhttp3.OkHttpClient
 import org.koin.core.module.dsl.viewModel
 import org.koin.dsl.module
 import retrofit2.Retrofit
@@ -18,8 +19,10 @@ import retrofit2.converter.gson.GsonConverterFactory
 val appModule = module {
 
     single {
+        val okHttpClient = OkHttpClient.Builder().build()
         Retrofit.Builder()
             .baseUrl("https://rickandmortyapi.com/api/")
+            .client(okHttpClient)
             .addConverterFactory(GsonConverterFactory.create())
             .build()
             .create(RickAndMortyApi::class.java)

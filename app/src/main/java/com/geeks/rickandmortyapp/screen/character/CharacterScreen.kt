@@ -54,10 +54,10 @@ fun CharacterScreen(
         characters.apply {
             when {
                 loadState.refresh is LoadState.Loading -> {
-                    item { CircularProgressIndicator(modifier = Modifier.fillMaxWidth()) }
+                    item { CircularProgressIndicator(modifier = Modifier.size(35.dp)) }
                 }
                 loadState.append is LoadState.Loading -> {
-                    item { CircularProgressIndicator(modifier = Modifier.fillMaxWidth()) }
+                    item { CircularProgressIndicator(modifier = Modifier.size(35.dp)) }
                 }
                 loadState.refresh is LoadState.Error -> {
                     val e = loadState.refresh as LoadState.Error
