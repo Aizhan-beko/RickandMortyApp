@@ -7,10 +7,15 @@ import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.animation.core.repeatable
 import androidx.compose.animation.core.tween
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Search
 import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
@@ -64,9 +69,21 @@ fun MainScreen() {
             animation = tween(durationMillis = 1000, easing = LinearEasing)
         )
     )
+
     Scaffold(
+        modifier = Modifier.fillMaxSize(),
+        containerColor = Color.LightGray,
         topBar = {
             TopAppBar(
+                navigationIcon = {
+                    IconButton(onClick = { navController.navigate("search_screen") }) {
+                        Icon(
+                            imageVector = Icons.Default.Search,
+                            contentDescription = "Search",
+                            tint = Color.White
+                        )
+                    }
+                },
                 title = {
                     Box(
                         modifier = Modifier.fillMaxWidth(),
@@ -98,13 +115,17 @@ fun MainScreen() {
         }
     }
 }
-
 @Composable
 fun getTitleForRoute(currentRoute: String?): String {
     return when (currentRoute) {
         BottomBarItem.Characters.route -> "Characters"
         BottomBarItem.Episodes.route -> "Episodes"
         BottomBarItem.Locations.route -> "Locations"
+        "search_screen" -> "Search"
         else -> "Rick and Morty App"
     }
 }
+
+
+
+

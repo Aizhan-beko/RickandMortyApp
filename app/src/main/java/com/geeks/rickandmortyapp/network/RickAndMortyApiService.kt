@@ -27,6 +27,9 @@ interface RickAndMortyApi {
     suspend fun getLocations(@Query("page") page: Int): LocationsResponse
 
     @GET("location/{id}") suspend fun getLocationById(@Path("id") id: Int): Location
+
+    @GET("character")
+    suspend fun searchCharacters(@Query("name") name: String): CharactersResponse
 }
 
 

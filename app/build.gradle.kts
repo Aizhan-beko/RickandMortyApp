@@ -2,6 +2,7 @@ plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.kotlin.android)
     alias(libs.plugins.kotlin.compose)
+    id("kotlin-kapt")
     kotlin("plugin.serialization") version "2.0.21"
 }
 android {
@@ -68,7 +69,7 @@ dependencies {
     debugImplementation(libs.androidx.ui.tooling)
     debugImplementation(libs.androidx.ui.test.manifest)
 
-     //Сoil
+    //Сoil
     implementation(libs.coil.compose)
 
 
@@ -97,6 +98,22 @@ dependencies {
 
     // анимации
     implementation(libs.accompanist.navigation.animation)
+
+    implementation(libs.androidx.material.icons.extended)
+
+    implementation("androidx.compose.foundation:foundation:1.5.0")
+
+    // Зависимость для Compose
+    implementation("androidx.compose.ui:ui:1.5.0") // или актуальная версия
+    implementation("androidx.compose.ui:ui-tooling-preview:1.5.0")
+    implementation("androidx.compose.material3:material3:<compose_version>")
+
+    implementation("com.google.accompanist:accompanist-pager:0.32.0")
+    implementation("com.google.accompanist:accompanist-pager-indicators:0.32.0")
+
+    implementation("com.github.bumptech.glide:glide:4.15.1")
+    kapt("com.github.bumptech.glide:compiler:4.15.1")
+
+    annotationProcessor ("com.github.bumptech.glide:compiler:4.15.1")
+
 }
-
-

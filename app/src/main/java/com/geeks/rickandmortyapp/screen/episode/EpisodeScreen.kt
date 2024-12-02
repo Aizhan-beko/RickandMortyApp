@@ -1,6 +1,5 @@
 package com.geeks.rickandmortyapp.screen.episode
 
-import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -11,11 +10,8 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.CircularProgressIndicator
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.AccountCircle
-import androidx.compose.material.icons.filled.Favorite
 import androidx.compose.material.icons.filled.FavoriteBorder
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
@@ -28,6 +24,7 @@ import androidx.navigation.NavController
 import androidx.paging.LoadState
 import androidx.paging.compose.collectAsLazyPagingItems
 import com.geeks.rickandmortyapp.data.episodes.Episode
+import com.geeks.rickandmortyapp.extensions.customCardWithDoubleBorders
 import org.koin.androidx.compose.koinViewModel
 
 
@@ -74,9 +71,11 @@ fun EpisodeItem(episode: Episode, onClick: () -> Unit) {
         modifier = Modifier
             .fillMaxWidth()
             .padding(8.dp)
-            .background(
-                Color.DarkGray,
-                shape = RoundedCornerShape(8.dp)
+            .customCardWithDoubleBorders(
+                outerBorderColor = Color(0xFFFFA500),
+                outerBorderWidth = 6.dp,
+                innerBackgroundColor = Color.DarkGray,
+                innerPadding = 6.dp
             )
             .clickable(onClick = onClick)
             .padding(16.dp)

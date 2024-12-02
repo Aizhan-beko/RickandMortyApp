@@ -7,9 +7,11 @@ import com.geeks.rickandmortyapp.paging_source.LocationsPagingSource
 import com.geeks.rickandmortyapp.repository.characters.CharactersRepository
 import com.geeks.rickandmortyapp.repository.episodes.EpisodesRepository
 import com.geeks.rickandmortyapp.repository.locations.LocationsRepository
+import com.geeks.rickandmortyapp.repository.search.SearchRepository
 import com.geeks.rickandmortyapp.screen.character.CharactersViewModel
 import com.geeks.rickandmortyapp.screen.episode.EpisodesViewModel
 import com.geeks.rickandmortyapp.screen.location.LocationsViewModel
+import com.geeks.rickandmortyapp.screen.search.SearchViewModel
 import okhttp3.OkHttpClient
 import org.koin.core.module.dsl.viewModel
 import org.koin.dsl.module
@@ -30,6 +32,7 @@ val appModule = module {
     single { CharactersRepository(get()) }
     single { LocationsRepository(get()) }
     single { EpisodesRepository(get()) }
+    single { SearchRepository(get()) }
 
     single { CharactersPagingSource(get()) }
     single { EpisodesPagingSource(get()) }
@@ -38,4 +41,5 @@ val appModule = module {
     viewModel { CharactersViewModel(get()) }
     viewModel { LocationsViewModel(get()) }
     viewModel { EpisodesViewModel(get()) }
+    viewModel { SearchViewModel(get()) }
 }

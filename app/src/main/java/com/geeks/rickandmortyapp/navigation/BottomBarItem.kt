@@ -6,7 +6,6 @@ import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
 import androidx.compose.animation.scaleIn
 import androidx.compose.animation.scaleOut
-import androidx.compose.animation.shrinkOut
 import androidx.compose.animation.slideInHorizontally
 import androidx.compose.animation.slideInVertically
 import androidx.compose.animation.slideOutHorizontally
@@ -23,6 +22,8 @@ import com.geeks.rickandmortyapp.screen.episode.EpisodeDetailScreen
 import com.geeks.rickandmortyapp.screen.episode.EpisodeScreen
 import com.geeks.rickandmortyapp.screen.location.LocationDetailScreen
 import com.geeks.rickandmortyapp.screen.location.LocationScreen
+import com.geeks.rickandmortyapp.screen.onboarding.OnboardingScreen
+import com.geeks.rickandmortyapp.screen.search.SearchScreen
 import com.google.accompanist.navigation.animation.AnimatedNavHost
 
 @OptIn(ExperimentalAnimationApi::class)
@@ -30,21 +31,10 @@ import com.google.accompanist.navigation.animation.AnimatedNavHost
 fun NavHostSetup(navController: NavController) {
     AnimatedNavHost(
         navController = navController as NavHostController,
-        startDestination = BottomBarItem.Characters.route
+        startDestination = "onboarding_screen"
     ) {
-        composable(
-            route = BottomBarItem.Characters.route,
-            enterTransition = {
-                slideInVertically(initialOffsetY = { -it / 2 }, animationSpec = tween(1000)) +
-                        fadeIn(animationSpec = tween(1000)) +
-                        scaleIn(initialScale = 0.5f, animationSpec = tween(1000))
-            },
-            exitTransition = {
-                shrinkOut( animationSpec = tween(1000)) +
-                        fadeOut(animationSpec = tween(1000))
-            }
-        ) {
-            CharacterScreen(navController = navController)
+        composable(route = "onboarding_screen") {
+            OnboardingScreen(navController = navController)
         }
 
         composable(
@@ -77,7 +67,13 @@ fun NavHostSetup(navController: NavController) {
             }
         }
 
-        // Character Detail Screen
+        composable(route = BottomBarItem.Characters.route) {
+            CharacterScreen(navController = navController)
+        }
+        composable(route = "search_screen") {
+            SearchScreen(navController = navController)
+        }
+
         composable(
             route = "character_detail_screen/{characterId}",
             arguments = listOf(navArgument("characterId") { type = NavType.IntType }),
@@ -127,6 +123,7 @@ fun NavHostSetup(navController: NavController) {
         }
     }
 }
+
 
 sealed class BottomBarItem(val route: String, val label: String) {
     data object Characters : BottomBarItem("character_screen", "Characters")

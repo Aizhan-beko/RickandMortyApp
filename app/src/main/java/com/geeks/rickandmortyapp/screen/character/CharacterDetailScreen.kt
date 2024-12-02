@@ -1,5 +1,6 @@
 package com.geeks.rickandmortyapp.screen.character
 
+import android.widget.ImageView
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.*
@@ -14,11 +15,11 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import coil3.compose.AsyncImage
+import androidx.compose.ui.viewinterop.AndroidView
+import com.bumptech.glide.Glide
 import org.koin.androidx.compose.koinViewModel
 
 @Composable
@@ -48,15 +49,12 @@ fun CharacterDetailScreen(
                         .padding(16.dp),
                     verticalArrangement = Arrangement.spacedBy(12.dp)
                 ) {
-
-                    AsyncImage(
-                        model = it.image,
-                        contentDescription = it.name,
+                    GlideImage(
+                        imageUrl = it.image,
                         modifier = Modifier
                             .size(150.dp)
                             .clip(RoundedCornerShape(8.dp))
-                            .border(2.dp, Color.White, RoundedCornerShape(8.dp)),
-                        contentScale = ContentScale.Crop
+                            .border(2.dp, Color.White, RoundedCornerShape(8.dp))
                     )
 
                     Text(
@@ -90,4 +88,24 @@ fun CharacterDetailScreen(
             }
         }
     }
+}
+
+@Composable
+fun GlideImage(
+    imageUrl: String,
+    modifier: Modifier = Modifier
+) {
+    AndroidView(
+        factory = { context ->
+            ImageView(context).apply {
+                scaleType = ImageView.ScaleType.CENTER_CROP
+            }
+        },
+        update = { imageView ->
+            Glide.with(imageView.context)
+                .load(imageUrl)
+                .into(imageView)
+        },
+        modifier = modifier
+    )
 }

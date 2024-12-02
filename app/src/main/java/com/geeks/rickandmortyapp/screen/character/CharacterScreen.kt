@@ -1,6 +1,5 @@
 package com.geeks.rickandmortyapp.screen.character
 
-import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
@@ -28,6 +27,7 @@ import androidx.paging.LoadState
 import androidx.paging.compose.collectAsLazyPagingItems
 import coil3.compose.AsyncImage
 import com.geeks.rickandmortyapp.data.characters.Character
+import com.geeks.rickandmortyapp.extensions.customCardWithBottomRightPlus
 import org.koin.androidx.compose.koinViewModel
 
 
@@ -39,6 +39,7 @@ fun CharacterScreen(
     val characters = viewModel.charactersFlow.collectAsLazyPagingItems()
 
     LazyColumn {
+
         items(characters.itemCount) { index ->
             val character = characters[index]
             character?.let {
@@ -80,7 +81,12 @@ fun CharacterItem(
         modifier = Modifier
             .fillMaxWidth()
             .padding(8.dp)
-            .background(color = Color.DarkGray, RoundedCornerShape(8.dp))
+            .customCardWithBottomRightPlus(
+                outerBorderColor = Color.Gray,
+                outerBorderWidth = 6.dp,
+                innerBackgroundColor = Color.DarkGray,
+                innerPadding = 4.dp
+            )
             .clickable { onClick(character) }
             .padding(16.dp),
         verticalAlignment = Alignment.CenterVertically
@@ -109,6 +115,3 @@ fun CharacterItem(
         }
     }
 }
-
-
-
